@@ -1,4 +1,4 @@
-"""Tests for pytorch/rnn.py.
+"""Tests for tcn.py.
 Based on: https://github.com/skorch-dev/skorch/blob/master/skorch/tests/test_regressor.py
 """
 
@@ -8,9 +8,8 @@ import pytest
 class TestTCN:
     @pytest.fixture
     def net(self):
-        from sail.models.torch.tcn import TCNRegressor
-        return TCNRegressor(input_units=10, output_units=1, hidden_units=20,
-                            n_hidden_layers=3, lr=0.01, cell_type="RNN")
+        from sail.models.torch.tcn2 import TCNRegressor
+        return TCNRegressor(num_inputs=10, num_channels=[10]*3, kernel_size=7, batch_size=1000)
 
     @pytest.fixture
     def net_partial_fit(self, net, regression_data):

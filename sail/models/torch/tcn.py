@@ -127,7 +127,7 @@ class _TCN(nn.Module):
         self.dropout = nn.Dropout(fc_dropout) if fc_dropout else None
         self.linear = nn.Linear(layers[-1], c_out)
         self.init_weights()
-        self.sig = nn.Sigmoid()
+        self.sig = nn.Softmax() # added to avoid exploding gradients
 
 
     def init_weights(self):
@@ -144,17 +144,16 @@ class _TCN(nn.Module):
 
 
 class TCNRegressor(NeuralNetRegressor):
-    """Basic TCN model.
-
-    Args:
-        num_inputs (int):
-        num_channels (list[int]):
-        kernel_size (int):
-        dropout (float):
-        **kwargs: Arbitrary keyword arguments
+    """TCN regressor Class
     """
 
     def __init__(self, c_in: int, c_out: int, **kwargs):
+        """
+
+        Args:
+            c_in (int): inputs
+            c_out (int): outputs
+        """
         super(TCNRegressor, self).__init__(
             module=_TCN,
             module__c_in=c_in,
